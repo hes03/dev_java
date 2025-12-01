@@ -7,8 +7,11 @@ public class LocalVar1 {
         return i;
     }
     //automatic variable, local variable
+    //파라미터 자리에 지변을 선언하면 언제 초기화가 되나요 --> 메소드를 호출할때
+    //왜냐하면 지변은 초기화를 생략할 수 없다.
+    //메소드는 호출할때마다 여러번 실행됨
     void methodB(int i){
-        System.out.println(i);
+        System.out.println("methodB i :" + i);
     }
     public static void main(String[] args) {
         //문제: 지역변수 i의 값을 굳이 main메서드에서 출력하도록
