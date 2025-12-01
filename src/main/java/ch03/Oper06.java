@@ -6,6 +6,8 @@ package ch03;
 public class Oper06 {
     public static void main(String[] args) {
         int age = 0;
+        //if문 괄호 안에 조건식이 온다.
+        //조건문은 항상 boolean 결과를 기준으로 동작함
         if(age <= 19){
             System.out.println("미성년자");
         }else if(age > 19){

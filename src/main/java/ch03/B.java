@@ -7,5 +7,11 @@ public class B {
     public static void main(String[] args) {
         int i = 2;
         i = 5;
+        System.out.println(i); //5가 출력됨
+        B b = new B();
+        System.out.println(b);
+        System.out.println(b.toString());
+        String s = "hello";
+        System.out.println(s);//주소번지가 아니라 값이 출력됨
     }
 }
