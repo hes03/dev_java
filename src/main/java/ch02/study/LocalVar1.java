@@ -1,0 +1,32 @@
+package ch02.study;
+
+public class LocalVar1 {
+    int methodA(){
+        int i = 1;
+        //System.out.println(i);
+        return i;
+    }
+    //automatic variable, local variable
+    void methodB(int i){
+        System.out.println(i);
+    }
+    public static void main(String[] args) {
+        //문제: 지역변수 i의 값을 굳이 main메서드에서 출력하도록
+        //코드를 작성해보시오.
+        //int i = 0;
+        //System.out.println(i);
+
+        LocalVar1 lv1 = new LocalVar1();
+        //변수 i는 지역변수이므로 아래와 같이 호출이 불가함.
+        //System.out.println(lv1.i);
+        // lv1.methodA();
+        //리턴타입 이용해서 호출
+        //System.out.println(lv1.methodA());
+        //methodA에서 선언된 지변 i와 main에서 선언된 지변 i는 서로 다르다.
+        int i = lv1.methodA();
+        System.out.println(i);
+        lv1.methodB(3);
+        //methodB는 리턴타입이 void이므로 대입연산자를 통해 반환받을 수 없음
+        //int i = lv1.methodB(3);
+    }
+}
