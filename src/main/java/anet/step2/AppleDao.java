@@ -19,6 +19,7 @@ public class AppleDao {
     ResultSet rs = null;
     AppleZipCode azc = null;
     public AppleDao(){}
+    //화면과 로직은 분리되어야 한다.
     public AppleDao(AppleZipCode azc){
         this.azc = azc;
     }
