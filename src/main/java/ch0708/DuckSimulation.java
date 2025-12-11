@@ -4,6 +4,10 @@ public class DuckSimulation {
     public static void main(String[] args) {
         //Duck duck = new Duck();
         //FlyBehavior fb = new FlyBehavior();
+        //클래스 설계시 선언부 타입과 생성부 타입이 달라진다. -> 다형성 가능함
+        //다형성 활용한 처리 -> 선언부에 더 넓은 타입이 온다.
+        // -> 그러면 생성부에 여러타입을 선택할 수 있다.
+        // -> 코드를 수정할 때 최소한의 수정을 보장함.
         Duck myDuck = new MalladDuck();
         myDuck.display();//나는 청둥오리입니다.
         myDuck.fly();//나는 날고있어요
