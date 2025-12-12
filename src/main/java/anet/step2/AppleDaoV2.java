@@ -18,37 +18,62 @@ public class AppleDaoV2 {
     PreparedStatement pstmt = null;
     ResultSet rs = null;
     public AppleDaoV2() {}
-
-    /************************************************************
-     * 제목: 로그인 구현하기
+    /*************************************************************
+     * 제목 : 대화명 변경하기
+     * @param mem_id, mem_nickname
+     * @return int
+     *************************************************************/
+    public int nickNameChange(String mem_id, String mem_nickname) {
+        int result = -1;
+        StringBuilder sql = new StringBuilder();
+        sql.append("update member            ");
+        sql.append(" set mem_nickname = ?    "); //첫번째 ?자리는 새로운 대화명 입력
+        sql.append(" where mem_id = ?  "); //두번째 ?자리는 pk인 아이디 입력
+        try {
+            con = dbMgr.getConnection();
+            pstmt = con.prepareStatement(sql.toString());
+            pstmt.setString(1,mem_nickname);
+            pstmt.setString(2,mem_id);
+            result = pstmt.executeUpdate();
+            logger("result 1이면 성공, 0이면 실패: "+result);
+        } catch (Exception e) {
+            logger(e);
+        }finally {
+            dbMgr.freeConnection(con, pstmt);
+        }
+        return result;
+    }
+    /*************************************************************
+     * 제목 : 로그인 구현하기
      * @param userId 사용자가 입력한 아이디
      * @param userPw 사용자가 입력한 비번
      * @return 로그인 성공 후 조회된 닉네임
-     ************************************************************/
-    public String login(String userId, String userPw) {
-        String nickName = null;
+     *************************************************************/
+    public String[] login(String userId, String userPw){
+        String user[] = new String[]{null, null};
         StringBuilder sql = new StringBuilder();
-        sql.append("select mem_nickname   ");
-        sql.append(" from member           ");
-        sql.append(" where mem_id =?");
-        sql.append(" and mem_pw =?");
-        try{
+        sql.append("SELECT mem_id, mem_nickname  ");
+        sql.append(" FROM member          ");
+        sql.append(" WHERE mem_id =?");
+        sql.append(" AND mem_pw =?");
+        try {
             con = dbMgr.getConnection();
             pstmt = con.prepareStatement(sql.toString());
             pstmt.setString(1, userId);
             pstmt.setString(2, userPw);
             rs = pstmt.executeQuery();
-            if(rs.next()){
-                nickName = rs.getString("mem_nickname");
+            if(rs.next()){ //한바퀴만 돈다
+                user[0] = rs.getString("mem_id");
+                user[1] = rs.getString("mem_nickname");
             }
-            System.out.println("nickName : "+nickName);
-        } catch (Exception e) {
+            logger(user[0]+","+user[1]);
+        }catch(Exception e){
             System.out.println(e.toString());
         }finally {
-            dbMgr.freeConnection(con, pstmt, rs);
+            dbMgr.freeConnection(con,pstmt,rs);
         }
         //return "대화명";
-        return nickName;
+        return user;
     }
     /*************************************************************
      * 제목 : 회원가입 구현하기
@@ -59,6 +84,14 @@ public class AppleDaoV2 {
      * @return result : 1이면 등록 성공, 0이면 등록 실패
      *************************************************************/
     public int memberInsert(MemberVO mVO){
+        System.out.println("memberInsert");
+        System.out.println(mVO.getMem_id());
+        System.out.println(mVO.getMem_pw());
+        System.out.println(mVO.getMem_nickname());
+        System.out.println(mVO.getMem_name());
+        System.out.println(mVO.getGender());
+        System.out.println(mVO.getZipcode());
+        System.out.println(mVO.getAddress());
         int result = -1;//1이면 회원가입 성공, 0이면 회원가입 실패
         StringBuilder sql = new StringBuilder();
         int i = 1;
@@ -79,7 +112,8 @@ public class AppleDaoV2 {
             result = pstmt.executeUpdate();//1이면 성공, 0이면 실패
             System.out.println("result : "+result);
         }catch(SQLException se){
-            System.out.println("[SQLException]: "+se.getMessage());
+            System.out.println("[SQLException]: "+sql);
+            logger(se.getMessage());
         }catch(Exception e){
             System.out.println("[Exception]: "+e.getMessage());
         }finally {
@@ -193,7 +227,7 @@ public class AppleDaoV2 {
 
     public static void main(String[] args) {
         AppleDaoV2 appleDao = new AppleDaoV2();
-//        appleDao.getZdoList();
+        //appleDao.getZdoList();
 //        MemberVO mVO = new MemberVO();
 //        mVO.setMem_id("nice");
 //        mVO.setMem_pw("123");
@@ -205,6 +239,7 @@ public class AppleDaoV2 {
 //        int result = appleDao.memberInsert(mVO);
 //        if(result == 1) System.out.println("입력 성공");
 //        else if(result == 0) System.out.println("등록 실패");
-        appleDao.login("nice","123");
+        appleDao.login("apple","123");
+        //appleDao.nickNameChange("사과나무", "사과애플");
     }
 }
